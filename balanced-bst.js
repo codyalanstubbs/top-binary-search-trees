@@ -28,8 +28,50 @@ const Tree = (array) => {
         
         return root;
     }
-    
-    return {root, insert};
+
+    const deleteValue = (value) => {
+        root = deleteRec(root, value);
+    }
+
+    const deleteRec = (root, value) => {
+        // Base Case - if tree empty
+        if (root == null) return root;
+
+        // Otherwise, recur down tree
+        if (value < root.data) {
+            root.left = deleteRec(root.left, value);
+        } else if (value > root.data) {
+            root.right = deleteRec(root.right, value);
+        } else { // if value is same as root's value
+
+            // for nodes with one or no child
+            if (root.left == null) {
+                return root.right;
+            } else if (root.right == null) {
+                return root.left;
+            }
+
+            // If node has two children, then
+            // get the smallest value in the right tree
+            root.data = findMinValue(root.right);
+
+            // Delete the smallest in the right tree
+            root.right = deleteRec(root.right, root.data);
+        }
+
+        return root;
+    }
+
+    return {root, insert, deleteValue};
+}
+
+function findMinValue(root) {
+    let min = root.data;
+    while (root.left != null) {
+        min = root.left.data;
+        root = root.left;
+    }
+    return min;
 }
 
 function buildTree(array, start, end) {
@@ -69,13 +111,5 @@ let array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 // let array = [1, 3,4,6,7,8,10,13,14];
 let newTree = Tree(array);
 prettyPrint(newTree.root);
-console.log(newTree.root);
-newTree.insert(50);
-newTree.insert(30);
-newTree.insert(20);
-newTree.insert(40);
-newTree.insert(70);
+newTree.deleteValue(8);
 prettyPrint(newTree.root);
-console.log(newTree.root);
-// let sortedArray = array.sort(function(a, b){return a-b});
-// console.log(removeDuplicates(sortedArray));
