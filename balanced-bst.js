@@ -62,7 +62,23 @@ const Tree = (array) => {
         return root;
     }
 
-    return {root, insert, deleteValue};
+    const find = (root, value) => {
+        let foundRoot;
+        // Base Case - if tree empty
+        if (root == null) return root;
+
+        // Otherwise, recur down the tree
+        if (value < root.data) {
+            return find(root.left, value);
+        } else if (value > root.data) {
+            return find(root.right, value);
+        } else {
+            return root;
+        }
+
+    }
+
+    return {root, insert, deleteValue, find};
 }
 
 function findMinValue(root) {
@@ -111,5 +127,4 @@ let array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 // let array = [1, 3,4,6,7,8,10,13,14];
 let newTree = Tree(array);
 prettyPrint(newTree.root);
-newTree.deleteValue(8);
-prettyPrint(newTree.root);
+console.log(newTree.find(newTree.root,67));
