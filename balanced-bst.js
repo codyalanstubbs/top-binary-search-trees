@@ -115,10 +115,24 @@ const Tree = (array) => {
         myFunction(root);
     }
 
+    const depth = (root, value, counter = 0) => {
+        // Base Case - if tree empty
+        if (root == null) return root;
+        // Otherwise, recur down the tree
+        if (value < root.data) {
+            counter = depth(root.left, value, counter+1);
+        } else if (value > root.data) {
+            counter = depth(root.right, value, counter+1);
+        } else {
+            return counter; 
+        }
+        return counter;
+    }
+
     return {
         root, insert, deleteValue, find, 
         levelOrderIterative, preorder, inorder,
-        postorder
+        postorder, depth
     };
 }
 
@@ -168,5 +182,4 @@ let array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 // let array = [1, 3,4,6,7,8,10,13,14];
 let newTree = Tree(array);
 prettyPrint(newTree.root);
-const anotherFunction = (root) => {console.log(root.data)}
-newTree.postorder(newTree.root, anotherFunction);
+console.log(newTree.depth(newTree.root, 9));
