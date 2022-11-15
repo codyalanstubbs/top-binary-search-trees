@@ -91,7 +91,35 @@ const Tree = (array) => {
         return dataArray;
     }
 
-    return {root, insert, deleteValue, find, levelOrderIterative};
+    const preorder = (root, myFunction = (root) => {console.log(root.data)}) => {
+        if (root == null) return root;
+        let dataArray = [];
+        myFunction(root);
+        preorder(root.left);
+        preorder(root.right);
+    }
+
+    const inorder = (root, myFunction = (root) => {console.log(root.data)}) => {
+        if (root == null) return root;
+        let dataArray = [];
+        inorder(root.left);
+        myFunction(root);
+        inorder(root.right);
+    }
+
+    const postorder = (root, myFunction = (root) => {console.log(root.data)}) => {
+        if (root == null) return root;
+        let dataArray = [];
+        postorder(root.left);
+        postorder(root.right);
+        myFunction(root);
+    }
+
+    return {
+        root, insert, deleteValue, find, 
+        levelOrderIterative, preorder, inorder,
+        postorder
+    };
 }
 
 function findMinValue(root) {
@@ -140,6 +168,5 @@ let array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 // let array = [1, 3,4,6,7,8,10,13,14];
 let newTree = Tree(array);
 prettyPrint(newTree.root);
-const anotherFunction = (root) => {console.log(root)}
-console.log(newTree.levelOrderIterative(newTree.root, anotherFunction));
-console.log(newTree.levelOrderIterative(newTree.root));
+const anotherFunction = (root) => {console.log(root.data)}
+newTree.postorder(newTree.root, anotherFunction);
