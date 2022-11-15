@@ -77,9 +77,9 @@ const Tree = (array) => {
 
     }
 
-    const levelOrderIterative = (root, myFunction = (root, dataArray) => {dataArray.push(root.data)}, queue = []) => {
-        if (root == null) return root;
-        queue.push(root);
+    const levelOrderIterative = (node = root, myFunction = (root, dataArray) => {dataArray.push(root.data)}, queue = []) => {
+        if (node == null) return node;
+        queue.push(node);
         let dataArray = [];
         let current;
         while (queue.length != 0) {
@@ -91,25 +91,28 @@ const Tree = (array) => {
         return dataArray;
     }
 
-    const preorder = (root, myFunction = (root) => {console.log(root.data)}) => {
-        if (root == null) return root;
-        myFunction(root);
-        preorder(root.left);
-        preorder(root.right);
+    const preorder = (node = root, array = [], myFunction = (root, array) => {array.push(root.data)}) => {
+        if (node == null) return node;
+        myFunction(node, array);
+        preorder(node.left, array);
+        preorder(node.right, array);
+        return array;
     }
 
-    const inorder = (root, myFunction = (root) => {console.log(root.data)}) => {
-        if (root == null) return root;
-        inorder(root.left);
-        myFunction(root);
-        inorder(root.right);
+    const inorder = (node = root, array = [], myFunction = (root, array) => {array.push(root.data)}) => {
+        if (node == null) return node;
+        inorder(node.left, array);
+        myFunction(node, array);
+        inorder(node.right, array);
+        return array;
     }
 
-    const postorder = (root, myFunction = (root) => {console.log(root.data)}) => {
-        if (root == null) return root;
-        postorder(root.left);
-        postorder(root.right);
-        myFunction(root);
+    const postorder = (node = root, array = [], myFunction = (root, array) => {array.push(root.data)}) => {
+        if (node == null) return node;
+        postorder(node.left, array);
+        postorder(node.right, array);
+        myFunction(node, array);
+        return array;
     }
 
     const depth = (root, value, depthValue = 0) => {
@@ -204,15 +207,25 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
     }
 }
 
-let array = [1,7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-// let array = [1, 3,4,6,7,8,10,13,14];
+let array = Array.from({length: 10}, () => Math.floor(Math.random() * 15));
 let newTree = Tree(array);
+console.log("1)  Create BST from array with random numbers: ")
 prettyPrint(newTree.root);
-console.log(newTree.isBalanced(newTree.root));
-newTree.insert(100);
-newTree.insert(99);
-newTree.insert(98);
-newTree.insert(97);
-newTree.insert(96);
+console.log("2)  Is tree balanced? ", newTree.isBalanced(newTree.root));
+console.log("3a) Level Order: ", newTree.levelOrderIterative().toString());
+console.log("3b) Preorder: ",newTree.preorder().toString());
+console.log("3c) Inorder: ", newTree.inorder().toString());
+console.log("3d) Postorder: ", newTree.postorder().toString());
+console.log("4)  Add several numbers > 100");
+newTree.insert(101);
+newTree.insert(104);
+newTree.insert(200);
+console.log("5)  Is tree balanced? ", newTree.isBalanced(newTree.root));
+newTree.root = newTree.rebalance(newTree.root);
+console.log("6)  Rebalanced tree: ");
 prettyPrint(newTree.root);
-prettyPrint(newTree.rebalance(newTree.root));
+console.log("7)  Confirm rebalanced: ", newTree.isBalanced(newTree.root));
+console.log("8a) Level Order: ", newTree.levelOrderIterative().toString());
+console.log("8b) Preorder: ",newTree.preorder().toString());
+console.log("8c) Inorder: ", newTree.inorder().toString());
+console.log("8d) Postorder: ", newTree.postorder().toString());
