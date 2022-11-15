@@ -93,7 +93,6 @@ const Tree = (array) => {
 
     const preorder = (root, myFunction = (root) => {console.log(root.data)}) => {
         if (root == null) return root;
-        let dataArray = [];
         myFunction(root);
         preorder(root.left);
         preorder(root.right);
@@ -101,7 +100,6 @@ const Tree = (array) => {
 
     const inorder = (root, myFunction = (root) => {console.log(root.data)}) => {
         if (root == null) return root;
-        let dataArray = [];
         inorder(root.left);
         myFunction(root);
         inorder(root.right);
@@ -109,7 +107,6 @@ const Tree = (array) => {
 
     const postorder = (root, myFunction = (root) => {console.log(root.data)}) => {
         if (root == null) return root;
-        let dataArray = [];
         postorder(root.left);
         postorder(root.right);
         myFunction(root);
@@ -143,12 +140,25 @@ const Tree = (array) => {
         const rightHeight = height(tree.right);
         const heightDiff = Math.abs(leftHeight - rightHeight);
         return ( heightDiff > 1) ? false : true;
+    };
+
+    const rebalance = (tree) => {
+        root = buildRebalancedTree(tree);
+        return root;
+    }
+
+    const buildRebalancedTree = (tree) => {
+        const valuesArray = levelOrderIterative(tree);
+        const sortedArray = valuesArray.sort(function(a, b){return a-b});
+        const sortedArrayNoDups = removeDuplicates(sortedArray);
+        return buildTree(sortedArrayNoDups, 0, sortedArrayNoDups.length-1);
     }
 
     return {
         root, insert, deleteValue, find, 
         levelOrderIterative, preorder, inorder,
-        postorder, depth, height, isBalanced
+        postorder, depth, height, isBalanced,
+        rebalance
     };
 }
 
@@ -205,4 +215,5 @@ newTree.insert(98);
 newTree.insert(97);
 newTree.insert(96);
 prettyPrint(newTree.root);
-console.log(newTree.isBalanced(newTree.root));
+console.log();
+prettyPrint(newTree.rebalance(newTree.root));
