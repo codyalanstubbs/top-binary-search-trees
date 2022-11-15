@@ -129,28 +129,18 @@ const Tree = (array) => {
         return depthValue;
     }
 
-    const height = (root, value, heightValue = 0) => {
-        let depthValue = depth(root, value);
-        while (root.left != null) {
-            root = root.left;
-            heightValue++;
-        }
-        return heightValue - depthValue;
+    const height = (node) => {
+        // Base Case
+        if (node == null) return 0;
+        const left = height(node.left);
+        const right = height(node.right);
+        return Math.max(left, right) + 1;
     }
-
-    const isBalanced = (root) => {
-        if (root == null) return root;
-        const heightLeft = height(root.left, root.left.data);
-        const heightRight = height(root.left, root.right.data)
-        const heightDiff = Math.abs(heightLeft - heightRight);
-        if (heightDiff > 1) return false;
-        return true;
-    };
 
     return {
         root, insert, deleteValue, find, 
         levelOrderIterative, preorder, inorder,
-        postorder, depth, height, isBalanced
+        postorder, depth, height
     };
 }
 
@@ -200,4 +190,11 @@ let array = [1,7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 // let array = [1, 3,4,6,7,8,10,13,14];
 let newTree = Tree(array);
 prettyPrint(newTree.root);
-console.log(newTree.isBalanced(newTree.root));
+console.log(newTree.height(newTree.root));
+newTree.insert(100);
+newTree.insert(99);
+newTree.insert(98);
+newTree.insert(97);
+newTree.insert(96);
+prettyPrint(newTree.root);
+console.log(newTree.height(newTree.root));
