@@ -63,7 +63,6 @@ const Tree = (array) => {
     }
 
     const find = (root, value) => {
-        let foundRoot;
         // Base Case - if tree empty
         if (root == null) return root;
 
@@ -78,7 +77,21 @@ const Tree = (array) => {
 
     }
 
-    return {root, insert, deleteValue, find};
+    const levelOrderIterative = (root, myFunction = (root, dataArray) => {dataArray.push(root.data)}, queue = []) => {
+        if (root == null) return root;
+        queue.push(root);
+        let dataArray = [];
+        let current;
+        while (queue.length != 0) {
+            current = queue.shift();
+            myFunction(current, dataArray);
+            if (current.left != null) queue.push(current.left);
+            if (current.right != null) queue.push(current.right);
+        }
+        return dataArray;
+    }
+
+    return {root, insert, deleteValue, find, levelOrder};
 }
 
 function findMinValue(root) {
@@ -127,4 +140,6 @@ let array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 // let array = [1, 3,4,6,7,8,10,13,14];
 let newTree = Tree(array);
 prettyPrint(newTree.root);
-console.log(newTree.find(newTree.root,67));
+const anotherFunction = (root) => {console.log(root)}
+console.log(newTree.levelOrderIterative(newTree.root, anotherFunction));
+console.log(newTree.levelOrderIterative(newTree.root));
