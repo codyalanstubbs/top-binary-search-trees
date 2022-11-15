@@ -138,10 +138,19 @@ const Tree = (array) => {
         return heightValue - depthValue;
     }
 
+    const isBalanced = (root) => {
+        if (root == null) return root;
+        const heightLeft = height(root.left, root.left.data);
+        const heightRight = height(root.left, root.right.data)
+        const heightDiff = Math.abs(heightLeft - heightRight);
+        if (heightDiff > 1) return false;
+        return true;
+    };
+
     return {
         root, insert, deleteValue, find, 
         levelOrderIterative, preorder, inorder,
-        postorder, depth, height
+        postorder, depth, height, isBalanced
     };
 }
 
@@ -187,8 +196,8 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
     }
 }
 
-let array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+let array = [1,7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 // let array = [1, 3,4,6,7,8,10,13,14];
 let newTree = Tree(array);
 prettyPrint(newTree.root);
-console.log(newTree.height(newTree.root, 4));
+console.log(newTree.isBalanced(newTree.root));
