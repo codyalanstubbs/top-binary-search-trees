@@ -215,5 +215,4 @@ newTree.insert(98);
 newTree.insert(97);
 newTree.insert(96);
 prettyPrint(newTree.root);
-console.log();
 prettyPrint(newTree.rebalance(newTree.root));
