@@ -91,7 +91,7 @@ const Tree = (array) => {
         return dataArray;
     }
 
-    return {root, insert, deleteValue, find, levelOrder};
+    return {root, insert, deleteValue, find, levelOrderIterative};
 }
 
 function findMinValue(root) {
